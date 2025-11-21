@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Rayya</title>
+    <!-- Blok kode ini memuat tiga sumber daya penting agar tampilan website kalkulatornya terlihat
+    lebih modern dan rapih. Baris pertama berisi Tailwind CSS dari internet, yang merupakan framework 
+    utama untuk memberi semua gaya (seperti warna, tata letak, dan tombol bulat). Baris kedua mengambil 
+    font "Inter" dari Google agar jenis hurufnya terlihat bagus. Terakhir, baris ketiga menghubungkan 
+    ke file Style.css kita sendiri, yang digunakan untuk menambahkan gaya kustom tambahan. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="Style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-sm bg-gray-800 rounded-2xl shadow-2xl p-6 space-y-4">
+        
+        <!-- Kode ini berfungsi untuk menampilkan gambar di bagian atas kalkulator. Saat ini, gambar tersebut (src) 
+        hanyalah placeholder sementara. Bagian terpenting adalah id="statusImage", yang merupakan nama unik agar 
+        file JavaScriptnya (Script.js) dapat menemukan gambar ini dan mengubahnya secara dinamis, misalnya menampilkan 
+        logo saat kalkulator menyala. Atribut class hanya digunakan oleh Tailwind CSS untuk mengatur gayanya agar terlihat 
+        bagus, seperti membuatnya lebar penuh dan memiliki sudut melengkung. -->
+        <div>
+            <img id="statusImage" 
+                 src="https://placehold.co/400x100/374151/E5E7EB?text=Kalkulator" 
+                 alt="Status Kalkulator"
+                 class="w-full rounded-lg transition-all duration-300 ease-in-out shadow-inner">
+        </div>
+
+        <!-- Kode ini menciptakan layar display kalkulatornya. Bagian utamanya adalah <input> yang diberi nama unik 
+        id="display". ID ini berfungsi agar skrip JavaScript tahu di mana harus menampilkan angka dan hasil perhitungan. 
+        Atribut readonly sangat penting karena mengunci layar agar tidak bisa diketik langsung, sehingga input hanya bisa 
+        berasal dari tombol-tombol kalkulator. Elemen <div> di luarnya beserta atribut class hanya bertugas untuk memberi 
+            gaya visual pada layar, seperti latar belakang gelap, sudut melengkung, dan teks besar yang rata kanan. -->
+        <div class="bg-gray-900 rounded-lg p-4 shadow-inner">
+            <input type="text" id="display" 
+                   class="w-full bg-transparent text-right text-5xl font-mono text-white border-0 outline-none p-2" 
+                   readonly 
+                   placeholder="0">
+        </div>
+        
+
+
+        <!-- Kode ini adalah <div> (wadah) yang membungkus semua tombol kalkulator. Perintah grid di dalamnya mengaktifkan 
+        sistem tata letak modern. Perintah grid-cols-4 secara otomatis mengatur semua tombol di dalamnya menjadi 4 kolom 
+        yang rapi. Terakhir, gap-3 berfungsi untuk memberikan jarak (spasi) yang seragam di antara setiap tombol agar tidak 
+        saling menempel. -->
+        <div class="grid grid-cols-4 gap-3">
+            
+            <!-- Kode ini membuat empat tombol pertama di baris atas kalkulator. Setiap <button> adalah tombol yang bisa diklik. 
+            Atribut data-value adalah bagian terpenting; ini seperti "label" internal yang akan dibaca oleh JavaScript. Misalnya, 
+            data-value="C" memberi tahu JavaScript untuk menjalankan fungsi "Clear" (hapus semua). Sementara itu, atribut class 
+            hanya digunakan oleh Tailwind CSS untuk memberi gaya visual pada tombol, seperti memberi warna merah pada tombol "C" 
+            atau warna biru pada operator. -->
+            <button data-value="C" class="btn-calc text-2xl font-bold bg-red-600 hover:bg-red-500 rounded-lg p-5 shadow-md text-white">C</button>
+            <button data-value="DEL" class="btn-calc text-2xl font-bold bg-gray-600 hover:bg-gray-500 rounded-lg p-5 shadow-md text-white">DEL</button>
+            <button data-value="%" class="btn-calc text-2xl font-bold bg-gray-600 hover:bg-gray-500 rounded-lg p-5 shadow-md text-white">%</button>
+            <button data-value="/" class="btn-calc text-2xl font-bold bg-indigo-600 hover:bg-indigo-500 rounded-lg p-5 shadow-md text-white">/</button>
+
+            <!--  Ini adalah baris kedua tombol (angka 7, 8, 9, dan operator kali). Logikanya sama dengan sebelumnya, data-value="7"
+            Saat diklik, JavaScript akan membaca nilai "7" ini dan menambahkannya ke layar (id="display"). data-value="*": Saat 
+            diklik, JavaScript akan tahu bahwa ini adalah operasi perkalian.Tombol angka diberi warna abu-abu (bg-gray-700), sementara 
+            operator diberi warna biru (bg-blue-600).  -->
+            <button data-value="7" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">7</button>
+            <button data-value="8" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">8</button>
+            <button data-value="9" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">9</button>
+            <button data-value="*" class="btn-calc text-2xl font-bold bg-indigo-600 hover:bg-indigo-500 rounded-lg p-5 shadow-md text-white">*</button>
+
+            <!--  Ini adalah baris ketiga tombol (angka 4, 5, 6, dan operator kurang). Fungsinya sama persis dengan baris tombol angka 
+            di atas. data-value akan memberi tahu JavaScript tombol mana yang ditekan.  -->
+            <button data-value="4" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">4</button>
+            <button data-value="5" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">5</button>
+            <button data-value="6" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">6</button>
+            <button data-value="-" class="btn-calc text-2xl font-bold bg-indigo-600 hover:bg-indigo-500 rounded-lg p-5 shadow-md text-white">-</button>
+
+            <!--  Ini adalah baris keempat tombol (angka 1, 2, 3, dan operator tambah). Fungsinya sama persis dengan baris tombol angka 
+            di atasnya  -->
+            <button data-value="1" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">1</button>
+            <button data-value="2" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">2</button>
+            <button data-value="3" class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">3</button>
+            <button data-value="+" class="btn-calc text-2xl font-bold bg-indigo-600 hover:bg-indigo-500 rounded-lg p-5 shadow-md text-white">+</button>
+
+            <!--  Ini adalah baris tombol terakhir kalkulator. Tombol "0" dibuat spesial dengan kelas col-span-2, yang membuatnya lebih
+            panjang dan memakan lebar dua kolom. Tombol titik (data-value=".") berfungsi untuk memasukkan angka desimal. Terakhir, tombol
+            "sama dengan" (data-value="="), yang sengaja diberi warna hijau, adalah pemicu utama yang memberi sinyal pada JavaScript untuk
+            menghitung total hasil akhir di layar.  -->
+            <button data-value="0" class="btn-calc col-span-2 text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">0</button>
+            <button data-value="." class="btn-calc text-2xl font-bold bg-gray-700 hover:bg-gray-600 rounded-lg p-5 shadow-md text-white">.</button>
+           <button data-value="=" class="btn-calc text-2xl font-bold bg-indigo-600 hover:bg-indigo-500 rounded-lg p-5 shadow-md text-white">=</button>
+        </div>
+
+        
+         <div class="text-center text-xs text-gray-400 -mt-2 mb-2">
+            <p class="font-bold">Muhammad Aysar Rayya</p>
+            <p>NIM: 1710624066</p>
+        </div>
+
+    </div>
+    <script src="Script.js"></script>
+</body>
+</html>
